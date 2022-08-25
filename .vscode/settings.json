@@ -1,0 +1,22 @@
+{
+    "python.linting.pylintEnabled": true,
+    "python.linting.flake8Enabled": true,
+    // "python.linting.flake8Path": "/usr/local/bin/flake8",
+    "python.linting.enabled": true,
+    "python.linting.lintOnSave": true,
+    // "python.formatting.blackPath": "/usr/local/bin/black",
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true,
+    "[html]": {
+        "editor.formatOnSave": false
+    },
+    "[sql]": {
+        "editor.formatOnSave": false
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "python.linting.pylintArgs": [
+        "--enable=W0614"
+    ]
+}
