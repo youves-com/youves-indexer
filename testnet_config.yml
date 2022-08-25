@@ -1,0 +1,502 @@
+spec_version: 1.2
+package: youves
+
+database:
+  kind: postgres
+  host: ${DB_HOST:-db}
+  port: 5432
+  user: ${DB_USER:-dipdup}
+  password: ${POSTGRES_PASSWORD:-dipdup}
+  database: ${DB_NAME:-dipdup}
+
+contracts:
+  tez_uusd_engine:
+    address: KT1MBu8ZU2gRdkC4Ahg54Zc33Q8CrT2ZVmnB
+    typename: youves_tez_engine_v2
+  tzbtclp_uusd_engine:
+    address: KT1LHhNhxa7sPXtUmie7p6VbLiCtyYbU5GF8
+    typename: youves_token_engine_v2
+  uusd_uxau_engine:
+    address: KT1Lmy1SyjeFj8DNxvbHnmMjtbmmBHL9ETr4
+    typename: youves_token_engine_v2
+  udefi_engine:
+    address: KT1AzpPgkZ7QK1MTe14H8eKPPKzrBW3Npvy6
+    typename: youves_token_engine_v1
+  uusd_target_oracle:
+    address: KT1KDrE5XfWxrSTY1d9P8Z7iCxThxiWWZzRb
+    typename: target_price_oracle_v4
+  udefi_target_oracle:
+    address: KT1KDrE5XfWxrSTY1d9P8Z7iCxThxiWWZzRb
+    typename: target_price_oracle_v4
+  udefi_intents:
+    address: KT1FK1i7QYK7X7252nqCzf5pcicxC33FZ1v8
+    typename: youves_fa2_intents
+  tzbtclp_uusd_intents:
+    address: KT1PB4pFRGLLdhgfLjfZ9TKc13Ev6Mznh5TQ
+    typename: youves_fa2_intents
+  tez_uusd_intents:
+    address: KT1HAT9FSkzA3mDqg3MwX5Eyh7qMTDsxNVm9
+    typename: youves_tez_intents
+  uusd_uxau_intents:
+    address: KT1AhQqRf2tBUcyL3CUqVgEJKZGPxnG2kELQ
+    typename: youves_fa2_intents
+  uusd_savings:
+    address: KT1Wc6yZMfoy2kkdZAf8mQJhBku2AdcY4Jhv
+    typename: youves_savings
+  udefi_savings:
+    address: KT1NY67v4iyM2tHXkBLPed69GqyvMEF6sano
+    typename: youves_savings
+  quipuswap_uusd_amm:
+    address: KT1DYx1uoEfKKYhJm4gAZBBHpuWVzwMzWdCV
+    typename: quipuswap_amm
+  quipuswap_governance_amm:
+    address: KT1D6DLJgG4kJ7A5JgT4mENtcQh9Tp3BLMVQ
+    typename: quipuswap_amm
+  quipuswap_udefi_amm:
+    address: KT1RgmsYqUSDdsQUhEmf4sKiBKWAX6KsVwkn
+    typename: quipuswap_amm
+  # plenty_uusd_amm:
+  #   address: ${PLENTY_UUSD_AMM:-KT1JbUFVGrMCpW39UtH97dMkG2nMMrefQLLa}
+  #   typename: plenty_amm
+  # plenty_udefi_amm:
+  #   address: ${PLENTY_UDEFI_AMM:-KT1EAw8hL5zseB3SLpJhBqPQfP9aWrWh8iMW}
+  #   typename: plenty_amm
+  # plenty_governance_amm:
+  #   address: ${PLENTY_GOVERNANCE_AMM:-KT1TnrLFrdemNZ1AnnWNfi21rXg7eknS484C}
+  #   typename: plenty_amm
+  governance_token_contract:
+    address: KT1C2sbavT9BuMnKEBCm9bot6HSUuCKDfK3s 
+    typename: governance_token_contract 
+  assets_token_contract:
+    address: KT1PiqMJSEsZkFruWMKMpoAmRVumKk9LavX3
+    typename: assets_token_contract
+
+datasources:
+  tzkt_data:
+    kind: tzkt
+    url: ${TZKT_URL:-https://api.hangzhou2net.tzkt.io}
+
+templates:
+  youves_savings:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <savings>
+    handlers:
+      - callback: on_savings_deposit
+        pattern:
+          - type: transaction
+            destination: <savings>
+            entrypoint: internal_deposit
+      - callback: on_savings_withdraw
+        pattern:
+          - type: transaction
+            destination: <savings>
+            entrypoint: internal_withdraw
+      - callback: on_savings_bailout
+        pattern:
+          - type: transaction
+            destination: <savings>
+            entrypoint: internal_bailout
+      - callback: on_savings_default
+        pattern:
+          - type: transaction
+            destination: <savings>
+            entrypoint: default
+  quipuswap_amm:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <amm>
+    handlers:
+      - callback: on_tez_to_token
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tezToTokenPayment
+      - callback: on_token_to_tez
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tokenToTezPayment
+      - callback: on_invest_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: investLiquidity
+      - callback: on_divest_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: divestLiquidity
+  plenty_amm:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <amm>
+    handlers:
+      - callback: on_add_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: AddLiquidity
+      - callback: on_remove_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: RemoveLiquidity
+      - callback: on_swap
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: Swap
+  youves_tez_engine:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <intents>
+      - <engine>
+    handlers:
+      - callback: on_advertise_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: advertise_intent
+      - callback: on_fullfill_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: internal_fulfill_intent
+      - callback: on_remove_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: remove_intent
+      - callback: on_execute_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: execute_intent
+      - callback: on_bailout_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_bailout
+      - callback: on_burn_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: burn
+      - callback: on_create_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: create_vault
+      - callback: on_liquidate_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_liquidate
+      - callback: on_mint_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: mint
+      - callback: on_set_vault_balance
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: set_vault_balance
+      - callback: on_settle_with_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_settle_with_vault
+      - callback: on_withdraw
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_withdraw
+  youves_token_engine:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <intents>
+      - <engine>
+    handlers:
+      - callback: on_advertise_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: advertise_intent
+      - callback: on_fullfill_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: internal_fulfill_intent
+      - callback: on_remove_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: remove_intent
+      - callback: on_execute_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: execute_intent
+      - callback: on_bailout_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_bailout
+      - callback: on_burn_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: burn
+      - callback: on_create_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: create_vault
+      - callback: on_liquidate_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_liquidate
+      - callback: on_mint_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: mint
+      - callback: on_settle_with_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_settle_with_vault
+      - callback: on_deposit_fa2
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: deposit
+      - callback: on_withdraw
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_withdraw            
+  youves_token_engine_v2:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <intents>
+      - <engine>
+    handlers:
+      - callback: on_advertise_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: advertise_intent
+      - callback: on_fullfill_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: internal_fulfill_intent
+      - callback: on_remove_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: remove_intent
+      - callback: on_execute_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: execute_intent
+      - callback: on_bailout_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: bailout
+      - callback: on_burn_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: burn
+      - callback: on_create_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: create_vault
+      - callback: on_liquidate_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: liquidate
+      - callback: on_mint_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: mint
+      - callback: on_settle_with_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: settle_with_vault
+      - callback: on_deposit_fa2
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: deposit
+      - callback: on_withdraw
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: withdraw
+  target_price_oracle_v1:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <target_oracle>           
+    handlers:
+      - callback: on_set_price
+        pattern:
+          - type: transaction
+            destination: <target_oracle>
+            entrypoint: set_price
+  target_price_oracle_v3:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <target_oracle>           
+    handlers:
+      - callback: on_set_price
+        pattern:
+          - type: transaction
+            destination: <target_oracle>
+            entrypoint: fulfill
+  governance_token_contract:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <fa2>
+    handlers:
+      - callback: on_governance_token_transfer
+        pattern:
+          - type: transaction
+            destination: <fa2>
+            entrypoint: transfer
+  assets_token_contract:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <fa2>
+    handlers:
+      - callback: on_assets_token_transfer
+        pattern:
+          - type: transaction
+            destination: <fa2>
+            entrypoint: transfer
+      - callback: on_assets_token_mint
+        pattern:
+          - type: transaction
+            destination: <fa2>
+            entrypoint: mint
+      - callback: on_assets_token_burn
+        pattern:
+          - type: transaction
+            destination: <fa2>
+            entrypoint: burn
+indexes:
+  tez_uusd_engine:
+    template: youves_tez_engine
+    values:
+      datasource: tzkt_data
+      intents: tez_uusd_intents
+      engine: tez_uusd_engine
+  tzbtclp_uusd_engine:
+    template: youves_token_engine_v2
+    values:
+      datasource: tzkt_data
+      intents: tzbtclp_uusd_intents
+      engine: tzbtclp_uusd_engine
+  uusd_uxau_engine:
+    template: youves_token_engine_v2
+    values:
+      datasource: tzkt_data
+      intents: uusd_uxau_intents
+      engine: uusd_uxau_engine
+  udefi_engine:
+    template: youves_token_engine
+    values:
+      datasource: tzkt_data
+      intents: udefi_intents
+      engine: udefi_engine
+  # uusd_target_oracle:
+  #   template: target_price_oracle_v1
+  #   values:
+  #     datasource: tzkt_data
+  #     target_oracle: uusd_target_oracle
+  # udefi_target_oracle:
+  #   template: target_price_oracle_v3
+  #   values:
+  #     datasource: tzkt_data
+  #     target_oracle: udefi_target_oracle       
+  uusd_savings:
+    template: youves_savings
+    values:
+      datasource: tzkt_data
+      savings: uusd_savings
+  udefi_savings:
+    template: youves_savings
+    values:
+      datasource: tzkt_data
+      savings: udefi_savings
+  quipuswap_uusd_amm:
+    template: quipuswap_amm
+    values:
+      datasource: tzkt_data
+      amm: quipuswap_uusd_amm
+  quipuswap_udefi_amm:
+    template: quipuswap_amm
+    values:
+      datasource: tzkt_data
+      amm: quipuswap_udefi_amm
+  quipuswap_governance_amm:
+    template: quipuswap_amm
+    values:
+      datasource: tzkt_data
+      amm: quipuswap_governance_amm
+  # plenty_uusd_amm:
+  #   template: plenty_amm
+  #   values:
+  #     datasource: tzkt_data
+  #     amm: plenty_uusd_amm
+  # plenty_udefi_amm:
+  #   template: plenty_amm
+  #   values:
+  #     datasource: tzkt_data
+  #     amm: plenty_udefi_amm
+  # plenty_governance_amm:
+  #   template: plenty_amm
+  #   values:
+  #     datasource: tzkt_data
+  #     amm: plenty_governance_amm
+  governance_token_contract:
+    template: governance_token_contract
+    values:
+      datasource: tzkt_data
+      fa2: governance_token_contract
+  assets_token_contract:
+    template: assets_token_contract
+    values:
+      datasource: tzkt_data
+      fa2: assets_token_contract
+
+hasura:
+  url: ${HASURA_HOST:-http://hasura:8080}
+  admin_secret: ${HASURA_ADMIN_SECRET:-changeme}
+
+# with v4.0.0 the following should be valid
+# advanced:
+#   MIGRATION: wipe
+#   CONFIG_HASH_MISMATCH: wipe
+#   SCHEMA_HASH_MISMATCH: wipe

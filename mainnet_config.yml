@@ -1,0 +1,816 @@
+spec_version: 1.2
+package: youves
+
+database:
+  kind: postgres
+  host: ${DB_HOST:-db}
+  port: 5432
+  user: ${DB_USER:-dipdup}
+  password: ${POSTGRES_PASSWORD:-dipdup}
+  database: ${DB_NAME:-dipdup}
+
+contracts:
+  ubtc_engine:
+    address: KT1VjQoL5QvyZtm9m1voQKNTNcQLi5QiGsRZ
+    typename: youves_tez_engine_v2
+  ubtc_tzbtc_lp_collateral_engine:
+    address: KT1NFWUqr9xNvVsz2LXCPef1eRcexJz5Q2MH
+    typename: youves_fa2_engine
+  udefi_tez_engine:
+    address: KT1LQcsXGpmLXnwrfftuQdCLNvLRLUAuNPCV
+    typename: youves_tez_engine_v2
+  uusd_engine:
+    address: KT1FFE2LC5JpVakVjHm5mM36QVp2p3ZzH4hH
+    typename: youves_tez_engine
+  uusd_tzbtc_lp_collateral_engine:
+    address: KT1FzcHaNhmpdYPNTgfb8frYXx7B5pvVyowu
+    typename: youves_fa2_engine
+  uusd_tzbtc_collateral_engine:
+    address: KT1HxgqnVjGy7KsSUTEsQ6LgpD5iKSGu7QpA
+    typename: youves_fa2_engine
+  uusd_usdt_collateral_engine:
+    address: KT1JmfujyCYTw5krfu9bSn7YbLYuz2VbNaje
+    typename: youves_fa2_engine_v3
+  udefi_tzbtc_lp_collateral_engine:
+    address: KT1E45AvpSr7Basw2bee3g8ri2LK2C2SV2XG
+    typename: youves_fa2_engine
+  udefi_engine:
+    address: KT1B2GSe47rcMCZTRk294havTpyJ36JbgdeB
+    typename: youves_fa2_engine
+  uusd_target_oracle:
+    address: KT1HjoLU8KAgQYszocVigHW8TxUb8ZsdGTog
+    typename: target_price_oracle_v1
+  udefi_target_oracle:
+    address: KT1UuqJiGQgfNrTK5tuR1wdYi5jJ3hnxSA55
+    typename: target_price_oracle_v3
+  generic_target_oracle:
+    address: KT1P8Ep9y8EsDSD9YkvakWnDvF2orDcpYXSq
+    typename: generic_target_price_oracle_v1
+  udefi_intents:
+    address: KT1Wqc19pqbYfzM3pVMZ35YdSxUvECwFfpVo
+    typename: youves_fa2_intents
+  ubtc_intents:
+    address: KT1WZY3DEBy6yTeXBe5BmMxMSV7RhDKDeS81
+    typename: youves_tez_intents
+  udefi_tez_intents:
+    address: KT1BjNkpfeb5gWQqMTB8Px1z3EXE4F3Tpkat
+    typename: youves_tez_intents
+  ubtc_tzbtc_lp_collateral_intents:
+    address: KT1CHzk4vojAF1gakAjB1mXa2nVrtyoe57v6
+    typename: youves_fa2_intents
+  udefi_tzbtc_lp_collateral_intents:
+    address: KT1CqxjZVvqQZtRhciL24o84zMKbdG9e62vc
+    typename: youves_fa2_intents
+  uusd_intents:
+    address: KT1AY8xaXU3M3XnaUxa6teLENU5Ku6z3YDbW
+    typename: youves_tez_intents
+  uusd_tzbtc_lp_collateral_intents:
+    address: KT1LwikDGBoBmrwCZbk2LrfV7ZBj26hNLGy6
+    typename: youves_fa2_intents
+  uusd_tzbtc_collateral_intents:
+    address: KT1MPUDs1CSo5QzxtittccisyR32S4EZ7NiV
+    typename: youves_fa2_intents
+  uusd_usdt_collateral_intents:
+    address: KT1V4UcdgjuirVxeZcTrFXvDRCyhMqnqBeLX
+    typename: youves_fa2_intents_v3
+  uusd_savings:
+    address: KT1TMfRfmJ5mkJEXZGRCsqLHn2rgnV1SdUzb
+    typename: youves_savings
+  udefi_savings:
+    address: KT1Kvg5eJVuYfTC1bU1bwWyn4e1PRGKAf6sy
+    typename: youves_savings
+  ubtc_savings:
+    address: KT1KNbtEBKumoZoyp5uq6A4v3ETN7boJ9ArF
+    typename: youves_savings
+  quipuswap_uusd_amm:
+    address: KT1EtjRRCBC2exyCRXz8UfV7jz7svnkqi7di
+    typename: quipuswap_amm
+  quipuswap_governance_amm:
+    address: KT1PL1YciLdwMbydt21Ax85iZXXyGSrKT2BE
+    typename: quipuswap_amm
+  quipuswap_udefi_amm:
+    address: KT1H8sJY2VzrbiX4pYeUVsoMUd4iGw2DV7XH
+    typename: quipuswap_amm
+  plenty_uusd_amm:
+    address: KT1JbUFVGrMCpW39UtH97dMkG2nMMrefQLLa
+    typename: plenty_amm
+  plenty_udefi_amm:
+    address: KT1EAw8hL5zseB3SLpJhBqPQfP9aWrWh8iMW
+    typename: plenty_amm
+  plenty_governance_amm:
+    address: KT1TnrLFrdemNZ1AnnWNfi21rXg7eknS484C
+    typename: plenty_amm
+  governance_token_contract:
+    address: KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL
+    typename: governance_token_contract
+  assets_token_contract:
+    address: KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW
+    typename: assets_token_contract
+  tzbtc_amm:
+    address: KT1TxqZ8QtKvLu3V3JH7Gx58n7Co8pgtpQU5
+    typename: tzbtc_amm
+  vortex_ctez_amm:
+    address: "KT1MRMsyWYCwf2ex2wN4yuihJbNykCDHdRTT"
+    typename: vortex_amm
+  vortex_plenty_amm:
+    address: "KT1VSjJxNq98AkPfVktpCv82hacrvgkb6hEu"
+    typename: vortex_amm
+  vortex_uusd_amm:
+    address: "KT1ND1bkLahTzVUt93zbDtGugpWcL23gyqgQ"
+    typename: vortex_fa2_token_amm
+  vortex_you_amm:
+    address: "KT1W2VfA2ofdiNR2vRE4phSEeTgfvGyY8p64"
+    typename: vortex_fa2_token_amm
+  vortex_smak_amm:
+    address: "KT1LzyPS8rN375tC31WPAVHaQ4HyBvTSLwBu"
+    typename: vortex_amm
+  vortex_kusd_amm:
+    address: "KT1Wjadao8AXkwNQmjstbPGtLd1ZrUyQEDX7"
+    typename: vortex_amm
+  uusd_wusdc_flat_cfmm:
+    address: "KT1JeWiS8j1kic4PHx7aTnEr9p4xVtJNzk5b"
+    typename: flat_fa2_token_cfmm
+  tzbtc_wwbtc_flat_cfmm:
+    address: "KT1T974a8qau4xP3RAAWPYCZM9xtwU9FLjPS"
+    typename: flat_cfmm
+  tzbtc_ubtc_flat_cfmm:
+    address: "KT1XvH5f2ja2jzdDbv6rxPmecZFU7s3obquN"
+    typename: flat_cfmm
+  kusd_uusd_flat_cfmm:
+    address: "KT1AVbWyM8E7DptyBCu4B5J5B7Nswkq7Skc6"
+    typename: flat_cfmm
+  uusd_usdtz_flat_cfmm:
+    address: "KT1Xbx9pykNd38zag4yZvnmdSNBknmCETvQV"
+    typename: flat_cfmm
+datasources:
+  tzkt_data:
+    kind: tzkt
+    url: ${TZKT_URL:-https://api.tzkt.io}
+    buffer_size: 2
+
+templates:
+  youves_savings:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <savings>
+    handlers:
+      - callback: on_savings_deposit
+        pattern:
+          - type: transaction
+            destination: <savings>
+            entrypoint: internal_deposit
+      - callback: on_savings_withdraw
+        pattern:
+          - type: transaction
+            destination: <savings>
+            entrypoint: internal_withdraw
+      - callback: on_savings_bailout
+        pattern:
+          - type: transaction
+            destination: <savings>
+            entrypoint: internal_bailout
+      - callback: on_savings_default
+        pattern:
+          - type: transaction
+            destination: <savings>
+            entrypoint: default
+  quipuswap_amm:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <amm>
+    handlers:
+      - callback: on_quipu_xtz_to_token
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tezToTokenPayment
+      - callback: on_quipu_token_to_xtz
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tokenToTezPayment
+      - callback: on_quipu_add_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: investLiquidity
+      - callback: on_quipu_remove_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: divestLiquidity
+  plenty_amm:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <amm>
+    handlers:
+      - callback: on_plenty_add_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: AddLiquidity
+      - callback: on_plenty_remove_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: RemoveLiquidity
+      - callback: on_plenty_swap
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: Swap
+  tzbtc_amm:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <amm>
+    handlers:
+      - callback: on_tzbtc_dex_add_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: addLiquidity
+      - callback: on_tzbtc_dex_remove_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: removeLiquidity
+      - callback: on_tzbtc_dex_xtz_to_token
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: xtzToToken
+      - callback: on_tzbtc_dex_token_to_xtz
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tokenToXtz
+  vortex_amm:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <amm>
+    handlers:
+      - callback: on_vortex_add_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: addLiquidity
+      - callback: on_vortex_remove_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: removeLiquidity
+      - callback: on_vortex_xtz_to_token
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: xtzToToken
+      - callback: on_vortex_token_to_xtz
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tokenToXtz
+      - callback: on_vortex_token_to_token
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tokenToToken
+  vortex_fa2_token_amm:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <amm>
+    handlers:
+      - callback: on_vortex_fa2_token_add_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: addLiquidity
+      - callback: on_vortex_fa2_token_remove_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: removeLiquidity
+      - callback: on_vortex_fa2_token_xtz_to_token
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: xtzToToken
+      - callback: on_vortex_fa2_token_token_to_xtz
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tokenToXtz
+      - callback: on_vortex_fa2_token_token_to_token
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tokenToToken
+  flat_cfmm:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <amm>
+    handlers:
+      - callback: on_flat_cfmm_add_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: addLiquidity
+      - callback: on_flat_cfmm_remove_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: removeLiquidity
+      - callback: on_flat_cfmm_cash_to_token
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: cashToToken
+      - callback: on_flat_cfmm_token_to_cash
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tokenToCash
+  flat_fa2_token_cfmm:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <amm>
+    handlers:
+      - callback: on_flat_fa2_token_cfmm_add_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: addLiquidity
+      - callback: on_flat_fa2_token_cfmm_remove_liquidity
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: removeLiquidity
+      - callback: on_flat_fa2_token_cfmm_cash_to_token
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: cashToToken
+      - callback: on_flat_fa2_token_cfmm_token_to_cash
+        pattern:
+          - type: transaction
+            destination: <amm>
+            entrypoint: tokenToCash
+  youves_tez_engine:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <intents>
+      - <engine>
+    handlers:
+      - callback: on_advertise_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: advertise_intent
+      - callback: on_fullfill_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: internal_fulfill_intent
+      - callback: on_remove_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: remove_intent
+      - callback: on_execute_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: execute_intent
+      - callback: on_bailout_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_bailout
+      - callback: on_burn_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: burn
+      - callback: on_create_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: create_vault
+      - callback: on_liquidate_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_liquidate
+      - callback: on_mint_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: mint
+      - callback: on_set_vault_balance
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: set_vault_balance
+      - callback: on_settle_with_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_settle_with_vault
+      - callback: on_withdraw
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_withdraw
+  youves_fa2_engine:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <intents>
+      - <engine>
+    handlers:
+      - callback: on_advertise_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: advertise_intent
+      - callback: on_fullfill_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: internal_fulfill_intent
+      - callback: on_remove_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: remove_intent
+      - callback: on_execute_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: execute_intent
+      - callback: on_bailout_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_bailout
+      - callback: on_burn_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: burn
+      - callback: on_create_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: create_vault
+      - callback: on_liquidate_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_liquidate
+      - callback: on_mint_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: mint
+      - callback: on_settle_with_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_settle_with_vault
+      - callback: on_deposit_fa2
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: deposit
+      - callback: on_withdraw
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: internal_withdraw
+  youves_fa2_engine_v3:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <intents>
+      - <engine>
+    handlers:
+      - callback: on_advertise_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: advertise_intent
+      - callback: on_fullfill_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: fulfill_intent
+      - callback: on_remove_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: remove_intent
+      - callback: on_execute_intent
+        pattern:
+          - type: transaction
+            destination: <intents>
+            entrypoint: execute_intent
+      - callback: on_burn_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: burn
+      - callback: on_create_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: create_vault
+      - callback: on_liquidate_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: liquidate
+      - callback: on_mint_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: mint
+      - callback: on_settle_with_vault
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: settle_with_vault
+      - callback: on_deposit_fa2
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: deposit
+      - callback: on_withdraw_v3
+        pattern:
+          - type: transaction
+            destination: <engine>
+            entrypoint: withdraw
+  target_price_oracle_v1:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <target_oracle>
+    handlers:
+      - callback: on_set_price
+        pattern:
+          - type: transaction
+            destination: <target_oracle>
+            entrypoint: set_price
+  target_price_oracle_v3:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <target_oracle>
+    handlers:
+      - callback: on_set_price
+        pattern:
+          - type: transaction
+            destination: <target_oracle>
+            entrypoint: fulfill
+  # Figure out if there is a way to add the symbols in this config.
+  generic_target_price_oracle_v1:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <target_oracle>
+    handlers:
+      - callback: on_set_generic_prices
+        pattern:
+          - type: transaction
+            destination: <target_oracle>
+            entrypoint: fulfill
+  governance_token_contract:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <fa2>
+    handlers:
+      - callback: on_governance_token_transfer
+        pattern:
+          - type: transaction
+            destination: <fa2>
+            entrypoint: transfer
+  assets_token_contract:
+    kind: operation
+    datasource: <datasource>
+    contracts:
+      - <fa2>
+    handlers:
+      - callback: on_assets_token_transfer
+        pattern:
+          - type: transaction
+            destination: <fa2>
+            entrypoint: transfer
+      - callback: on_assets_token_mint
+        pattern:
+          - type: transaction
+            destination: <fa2>
+            entrypoint: mint
+      - callback: on_assets_token_burn
+        pattern:
+          - type: transaction
+            destination: <fa2>
+            entrypoint: burn
+indexes:
+  ubtc_engine:
+    template: youves_tez_engine
+    values:
+      datasource: tzkt_data
+      intents: ubtc_intents
+      engine: ubtc_engine
+  udefi_tez_engine:
+    template: youves_tez_engine
+    values:
+      datasource: tzkt_data
+      intents: udefi_tez_intents
+      engine: udefi_tez_engine
+  ubtc_tzbtc_lp_collateral_engine:
+    template: youves_fa2_engine
+    values:
+      datasource: tzkt_data
+      intents: ubtc_tzbtc_lp_collateral_intents
+      engine: ubtc_tzbtc_lp_collateral_engine
+  uusd_engine:
+    template: youves_tez_engine
+    values:
+      datasource: tzkt_data
+      intents: uusd_intents
+      engine: uusd_engine
+  uusd_tzbtc_lp_collateral_engine:
+    template: youves_fa2_engine
+    values:
+      datasource: tzkt_data
+      intents: uusd_tzbtc_lp_collateral_intents
+      engine: uusd_tzbtc_lp_collateral_engine
+  uusd_tzbtc_collateral_engine:
+    template: youves_fa2_engine
+    values:
+      datasource: tzkt_data
+      intents: uusd_tzbtc_collateral_intents
+      engine: uusd_tzbtc_collateral_engine
+  uusd_usdt_collateral_engine:
+    template: youves_fa2_engine_v3
+    values:
+      datasource: tzkt_data
+      intents: uusd_usdt_collateral_intents
+      engine: uusd_usdt_collateral_engine
+  udefi_tzbtc_lp_collateral_engine:
+    template: youves_fa2_engine
+    values:
+      datasource: tzkt_data
+      intents: udefi_tzbtc_lp_collateral_intents
+      engine: udefi_tzbtc_lp_collateral_engine
+  udefi_engine:
+    template: youves_fa2_engine
+    values:
+      datasource: tzkt_data
+      intents: udefi_intents
+      engine: udefi_engine
+  uusd_target_oracle:
+    template: target_price_oracle_v1
+    values:
+      datasource: tzkt_data
+      target_oracle: uusd_target_oracle
+  udefi_target_oracle:
+    template: target_price_oracle_v3
+    values:
+      datasource: tzkt_data
+      target_oracle: udefi_target_oracle
+  generic_target_oracle:
+    template: generic_target_price_oracle_v1
+    values:
+      datasource: tzkt_data
+      target_oracle: generic_target_oracle
+  uusd_savings:
+    template: youves_savings
+    values:
+      datasource: tzkt_data
+      savings: uusd_savings
+  udefi_savings:
+    template: youves_savings
+    values:
+      datasource: tzkt_data
+      savings: udefi_savings
+  quipuswap_uusd_amm:
+    template: quipuswap_amm
+    values:
+      datasource: tzkt_data
+      amm: quipuswap_uusd_amm
+  quipuswap_udefi_amm:
+    template: quipuswap_amm
+    values:
+      datasource: tzkt_data
+      amm: quipuswap_udefi_amm
+  quipuswap_governance_amm:
+    template: quipuswap_amm
+    values:
+      datasource: tzkt_data
+      amm: quipuswap_governance_amm
+  plenty_uusd_amm:
+    template: plenty_amm
+    values:
+      datasource: tzkt_data
+      amm: plenty_uusd_amm
+  plenty_udefi_amm:
+    template: plenty_amm
+    values:
+      datasource: tzkt_data
+      amm: plenty_udefi_amm
+  plenty_governance_amm:
+    template: plenty_amm
+    values:
+      datasource: tzkt_data
+      amm: plenty_governance_amm
+  tzbtc_amm:
+    template: tzbtc_amm
+    values:
+      datasource: tzkt_data
+      amm: tzbtc_amm
+  vortex_ctez_amm:
+    template: vortex_amm
+    values:
+      datasource: tzkt_data
+      amm: vortex_ctez_amm
+  vortex_plenty_amm:
+    template: vortex_amm
+    values:
+      datasource: tzkt_data
+      amm: vortex_plenty_amm
+  vortex_uusd_amm:
+    template: vortex_fa2_token_amm
+    values:
+      datasource: tzkt_data
+      amm: vortex_uusd_amm
+  vortex_you_amm:
+    template: vortex_fa2_token_amm
+    values:
+      datasource: tzkt_data
+      amm: vortex_you_amm
+  vortex_smak_amm:
+    template: vortex_amm
+    values:
+      datasource: tzkt_data
+      amm: vortex_smak_amm
+  vortex_kusd_amm:
+    template: vortex_amm
+    values:
+      datasource: tzkt_data
+      amm: vortex_kusd_amm
+  uusd_wusdc_flat_cfmm:
+    template: flat_fa2_token_cfmm
+    values:
+      datasource: tzkt_data
+      amm: uusd_wusdc_flat_cfmm
+  tzbtc_wwbtc_flat_cfmm:
+    template: flat_cfmm
+    values:
+      datasource: tzkt_data
+      amm: tzbtc_wwbtc_flat_cfmm
+  tzbtc_ubtc_flat_cfmm:
+    template: flat_cfmm
+    values:
+      datasource: tzkt_data
+      amm: tzbtc_ubtc_flat_cfmm
+  kusd_uusd_flat_cfmm:
+    template: flat_fa2_token_cfmm
+    values:
+      datasource: tzkt_data
+      amm: kusd_uusd_flat_cfmm
+  uusd_usdtz_flat_cfmm:
+    template: flat_cfmm
+    values:
+      datasource: tzkt_data
+      amm: uusd_usdtz_flat_cfmm
+  governance_token_contract:
+    template: governance_token_contract
+    values:
+      datasource: tzkt_data
+      fa2: governance_token_contract
+  assets_token_contract:
+    template: assets_token_contract
+    values:
+      datasource: tzkt_data
+      fa2: assets_token_contract
+hasura:
+  url: ${HASURA_HOST:-http://hasura:8080}
+  admin_secret: ${HASURA_ADMIN_SECRET:-changeme}
+# with v4.0.0 the following should be valid
+advanced:
+  reindex:
+    rollback: ignore
+#   MIGRATION: wipe
+#   CONFIG_HASH_MISMATCH: wipe
+#   SCHEMA_HASH_MISMATCH: wipe
