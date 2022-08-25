@@ -1,11 +1,12 @@
 from decimal import Decimal
 from enum import Enum
 
-from tortoise import Model, fields
-
-# from dipdup.models import Model
-# from tortoise import fields
+from dipdup.models import Model
+from tortoise import fields
 from tortoise.signals import pre_save
+
+# from tortoise import Model, fields
+
 
 
 class Intent(Model):
